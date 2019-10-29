@@ -68,7 +68,7 @@ export default {
       let url = `http://localhost:3000/delete/${id}`;
       axios.delete(url).then(response => {
         for (let i = 0; i < this.posts.length; ++i) {
-          if (this.posts[i].IDPost == response.data) {
+          if (this.posts[i]._id == response.data) {
             this.posts.splice(i, 1);
           }
         }

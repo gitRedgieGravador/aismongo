@@ -6,7 +6,7 @@ const port = 3000
 
 app.use(cors())
 
-mongoose.connect('mongodb+srv://mrclay:myP@ssw0rd@gravador-qools.mongodb.net/aismongo', {
+mongoose.connect('mongodb://localhost:27017/aismongo', {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 }).then(() => {
@@ -32,10 +32,8 @@ app.put('/create', function(req, res) {
             title: title,
             content: content
         })
-        newcon.save(function(err, newcon, numAffected) {
+        newcon.save(function(err) {
             if (err) return console.error(err);
-            console.log(newcon)
-            console.log(numAffected)
         });
     })
     res.send("saved")
@@ -44,7 +42,7 @@ app.put('/create', function(req, res) {
 app.get('/get-data/all', function(req, res) {
     var query = postItem.find()
     query.exec(function(err, docs) {
-        console.log(docs)
+        if (err) return console.error(err);
         res.send(docs)
     });
 
@@ -56,7 +54,7 @@ app.post('/get-data/:id', function(req, res) {
         _id: id
     })
     query.exec(function(err, docs) {
-        console.log("single doc=" + docs)
+        if (err) return console.error(err);
         res.send(docs)
     });
 })
@@ -65,16 +63,25 @@ app.post('/update/:id', function(req, res) {
     req.on('data', function(data) {
         let datai = JSON.parse(data);
         let id = req.params.id
-        var query = postItem.find({
+        var query = postItem.where({
             _id: id
-        })
-        query.exec(function(err, docs) {
-            console.log("single doc=" + docs)
-            res.send(docs)
+        }).updateOne({ $set: { title: datai.title, content: datai.content }})
+        query.exec(function(err, back) {
+            if (err) return console.error(err);
+            res.send(back)
         });
     })
-    res.send("updated")
+})
 
+app.delete('/delete/:id', function(req, res) {
+    let id = req.params.id
+    var query = postItem.deleteOne({
+        _id:id
+    })
+    query.exec(function(err){
+        if (err) return console.error(err);
+        res.send(req.params.id)
+    })
 })
 app.listen(port, function() {
     console.log("listing to : " + port)

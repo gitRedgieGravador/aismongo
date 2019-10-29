@@ -62,6 +62,7 @@ export default {
                         content: this.content
                     })
                     .then(res => {
+                        console.log(res.data)
                         this.isUpdate = false;
                         this.$router.push({
                             path: '/home'
