@@ -25,6 +25,8 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
+
+
 export default {
   mixins: [validationMixin],
 
@@ -32,14 +34,12 @@ export default {
     password: { required },
     username: { required, email }
   },
-
   data: () => ({
     password: "",
     username: "",
     show1: false,
     remark: ""
   }),
-
   computed: {
     passwordErrors() {
       const errors = [];
@@ -52,7 +52,7 @@ export default {
       if (!this.$v.username.$dirty) return errors;
       !this.$v.username.required && errors.push("Username is required");
       return errors;
-    },
+    }
   },
 
   methods: {
@@ -61,8 +61,8 @@ export default {
         this.$store.commit("setAuthentication", true);
         this.$router.push({ name: "home" });
       } else {
-          this.username = ""
-          this.password = ""
+        this.username = "";
+        this.password = "";
       }
     }
   }
