@@ -30,14 +30,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in posts" :key="item.IDPost">
-                <td class="text-left">{{ item.Title }}</td>
-                <td class="text-center">{{ item.Content }}</td>
+              <tr v-for="item in posts" :key="item._id">
+                <td class="text-left">{{ item.title }}</td>
+                <td class="text-center">{{ item.content }}</td>
                 <td class="text-right">
-                  <router-link :to="'/update/'+item.IDPost">
+                  <router-link :to="'/update/'+item._id">
                     <v-btn color="primary">Update</v-btn>
                   </router-link>
-                  <v-btn color="error" v-on:click="deletei(item.IDPost)">Delete</v-btn>
+                  <v-btn color="error" v-on:click="deletei(item._id)">Delete</v-btn>
                 </td>
               </tr>
             </tbody>
